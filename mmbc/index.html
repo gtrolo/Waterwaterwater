@@ -172,8 +172,8 @@
 
         // Send Test
         function sendTestNotification() {
-            alertSound.play().catch(e => console.log("Audio play prevented"));
             showOverlay();
+            alertSound.play().catch(e => console.log("Audio play prevented"));
             
             if (permission === 'granted') {
                 try {
@@ -249,25 +249,27 @@
 
         // Toggle Active
         async function toggleActive() {
-            if (!isActive && permission !== 'granted') {
-                await requestNotificationPermission();
+            if (!isActive) {
+                // ALTIJD direct foto tonen en geluid spelen bij start
+                showOverlay();
+                alertSound.play().catch(e => console.log("Audio play prevented"));
+
+                // Daarna pas checken/vragen om permissies
+                if (permission !== 'granted') {
+                    await requestNotificationPermission();
+                }
+
                 if ('Notification' in window && Notification.permission === 'granted') {
                     isActive = true;
                     lastNotified = new Date();
-                    showOverlay();
-                } else {
-                    showMessage("Kan niet starten zonder notificatie-rechten.", "error");
-                    return;
-                }
-            } else {
-                isActive = !isActive;
-                if (isActive) {
-                    lastNotified = new Date();
-                    showOverlay();
                     timerId = setInterval(checkLoop, 60000); // Check elke minuut
                 } else {
-                    clearInterval(timerId);
+                    showMessage("Let op: de timer is niet gestart omdat notificaties uit staan!", "error");
                 }
+            } else {
+                // Uitzetten
+                isActive = false;
+                clearInterval(timerId);
             }
             updateUI();
         }
