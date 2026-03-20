@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Djordy's Water App</title>
+    <!-- Tailwind CSS via CDN voor de styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3105/3105807.png">
+</head>
+<body class="bg-slate-900 min-h-screen flex items-center justify-center p-4 font-sans text-slate-100 selection:bg-blue-500/30">
+
+    <div class="bg-slate-800 rounded-3xl shadow-2xl p-6 w-full max-w-md border border-slate-700 relative overflow-hidden">
+        
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="bg-blue-500/20 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"></path></svg>
+            </div>
+            <h1 class="text-2xl font-bold tracking-tight text-white">Djordy's Water App</h1>
+            <p class="text-slate-400 text-sm mt-1">Smartwatch Reminders</p>
+        </div>
+
+        <!-- Status Card -->
+        <div id="status-card" class="rounded-2xl p-4 mb-6 flex items-center justify-between border bg-slate-700/50 border-slate-600 transition-colors">
+            <div class="flex items-center gap-3">
+                <div id="status-icon">
+                    <!-- Square Icon (Pauze) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400"><rect width="18" height="18" x="3" y="3" rx="2"></rect></svg>
+                </div>
+                <div>
+                    <p id="status-title" class="font-medium text-white">Systeem Gepauzeerd</p>
+                    <p id="status-subtext" class="text-xs text-slate-400">Klik op start om te beginnen</p>
+                </div>
+            </div>
+            <button id="toggle-btn" class="p-3 rounded-xl transition-all bg-blue-500 text-white hover:bg-blue-600 shadow-lg shadow-blue-500/30">
+                <!-- Play Icon -->
+                <svg id="toggle-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
+            </button>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="grid grid-cols-2 gap-3 mb-6">
+            <button id="test-btn" class="flex flex-col items-center justify-center bg-slate-700 hover:bg-slate-600 p-3 rounded-xl transition-colors border border-slate-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400 mb-2"><circle cx="12" cy="12" r="7"></circle><polyline points="12 9 12 12 13.5 13.5"></polyline><path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"></path></svg>
+                <span class="text-sm font-medium">Test Smartwatch</span>
+            </button>
+            <button id="settings-btn" class="flex flex-col items-center justify-center p-3 rounded-xl transition-colors border bg-slate-700 hover:bg-slate-600 border-slate-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-300 mb-2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                <span class="text-sm font-medium">Werkuren</span>
+            </button>
+        </div>
+
+        <!-- Settings Panel -->
+        <div id="settings-panel" class="hidden bg-slate-900/50 rounded-2xl p-4 mb-6 border border-slate-700 space-y-4">
+            <h3 class="text-sm font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-2">Instellingen</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Start Tijd</label>
+                    <input type="time" id="start-time" value="09:00" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2 text-white focus:outline-none focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Eind Tijd</label>
+                    <input type="time" id="end-time" value="17:00" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2 text-white focus:outline-none focus:border-blue-500">
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs text-slate-400 mb-1">Interval (minuten)</label>
+                <input type="number" id="interval-mins" value="60" min="1" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2 text-white focus:outline-none focus:border-blue-500">
+            </div>
+        </div>
+
+        <!-- Permissions & Messages -->
+        <div id="permission-box" class="hidden bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-4 flex gap-3 items-start mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-500 flex-shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            <div>
+                <p class="text-sm text-yellow-200">Notificaties staan uit.</p>
+                <button id="req-permission-btn" class="text-yellow-400 text-sm font-semibold mt-1 hover:underline">Klik hier om toe te staan</button>
+            </div>
+        </div>
+
+        <div id="message-box" class="hidden border rounded-xl p-3 text-sm text-center mb-6"></div>
+    </div>
+
+    <script>
+        // State
+        let isActive = false;
+        let permission = 'default';
+        let lastNotified = null;
+        let showSettings = false;
+        let timerId = null;
+
+        // Audio fallback
+        const alertSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+
+        // DOM Elements
+        const statusCard = document.getElementById('status-card');
+        const statusIcon = document.getElementById('status-icon');
+        const statusTitle = document.getElementById('status-title');
+        const statusSubtext = document.getElementById('status-subtext');
+        const toggleBtn = document.getElementById('toggle-btn');
+        const toggleIcon = document.getElementById('toggle-icon');
+        const testBtn = document.getElementById('test-btn');
+        const settingsBtn = document.getElementById('settings-btn');
+        const settingsPanel = document.getElementById('settings-panel');
+        const permissionBox = document.getElementById('permission-box');
+        const reqPermissionBtn = document.getElementById('req-permission-btn');
+        const messageBox = document.getElementById('message-box');
+        const startTimeInput = document.getElementById('start-time');
+        const endTimeInput = document.getElementById('end-time');
+        const intervalInput = document.getElementById('interval-mins');
+
+        // Init check
+        if ('Notification' in window) {
+            permission = Notification.permission;
+        } else {
+            showMessage('Notificaties worden niet ondersteund op dit apparaat/in deze browser.', 'error');
+        }
+        updateUI();
+
+        // Helper: Show Message
+        function showMessage(msg, type = 'info') {
+            messageBox.textContent = msg;
+            messageBox.className = 'border rounded-xl p-3 text-sm text-center mb-6 block ' + 
+                (type === 'success' ? 'bg-green-500/10 border-green-500/20 text-green-400' : 
+                 type === 'error' ? 'bg-red-500/10 border-red-500/20 text-red-400' : 
+                 'bg-slate-700/50 border-slate-600 text-slate-300');
+        }
+
+        // Request Permission
+        async function requestNotificationPermission() {
+            if (!('Notification' in window)) {
+                showMessage('Notificaties worden niet ondersteund.', 'error');
+                return;
+            }
+            try {
+                const result = await Notification.requestPermission();
+                permission = result;
+                if (result === 'granted') {
+                    showMessage('Notificaties toegestaan! (Op iPhone: zet app eerst op je beginscherm)', 'success');
+                } else {
+                    showMessage('Notificaties geblokkeerd. Check je browser instellingen.', 'error');
+                }
+                updateUI();
+            } catch (error) {
+                showMessage('Fout bij het aanvragen van rechten.', 'error');
+            }
+        }
+
+        // Send Test
+        function sendTestNotification() {
+            alertSound.play().catch(e => console.log("Audio play prevented"));
+            if (permission === 'granted') {
+                try {
+                    new Notification('Tijd voor water, Djordy! 💧', {
+                        body: 'Dit is een testmelding. Drink een glas water.',
+                        icon: 'https://cdn-icons-png.flaticon.com/512/3105/3105807.png'
+                    });
+                    showMessage('Testmelding verstuurd!', 'success');
+                } catch (e) {
+                    showMessage('Kon geen notificatie sturen. Test direct op de telefoon.', 'error');
+                }
+            } else {
+                requestNotificationPermission();
+            }
+        }
+
+        // Trigger Reminder
+        function triggerWaterReminder() {
+            if (permission === 'granted') {
+                try {
+                    new Notification('Water drinken! 💧', {
+                        body: 'Djordy, het is tijd voor je volgende glas water.',
+                        icon: 'https://cdn-icons-png.flaticon.com/512/3105/3105807.png'
+                    });
+                    lastNotified = new Date();
+                    alertSound.play().catch(e => console.log("Audio play prevented"));
+                    updateUI();
+                } catch (e) {
+                    console.error("Notificatie faalde", e);
+                }
+            }
+        }
+
+        // Check Work Hours
+        function isWithinWorkHours() {
+            try {
+                const now = new Date();
+                const currentHours = now.getHours();
+                const currentMinutes = now.getMinutes();
+                const currentTime = currentHours + currentMinutes / 60;
+
+                const [startH, startM] = startTimeInput.value.split(':').map(Number);
+                const startNum = startH + startM / 60;
+
+                const [endH, endM] = endTimeInput.value.split(':').map(Number);
+                const endNum = endH + endM / 60;
+
+                return currentTime >= startNum && currentTime <= endNum;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        // Main Loop
+        function checkLoop() {
+            if (!isActive) return;
+            if (!isWithinWorkHours()) return;
+
+            const intervalMinutes = Number(intervalInput.value);
+            const now = new Date();
+            
+            if (!lastNotified) {
+                triggerWaterReminder();
+            } else {
+                const diffMs = now - lastNotified;
+                const diffMins = Math.floor(diffMs / 60000);
+                if (diffMins >= intervalMinutes) {
+                    triggerWaterReminder();
+                }
+            }
+        }
+
+        // Toggle Active
+        async function toggleActive() {
+            if (!isActive && permission !== 'granted') {
+                await requestNotificationPermission();
+                if ('Notification' in window && Notification.permission === 'granted') {
+                    isActive = true;
+                    lastNotified = new Date();
+                } else {
+                    showMessage("Kan niet starten zonder notificatie-rechten.", "error");
+                    return;
+                }
+            } else {
+                isActive = !isActive;
+                if (isActive) {
+                    lastNotified = new Date();
+                    timerId = setInterval(checkLoop, 60000); // Check elke minuut
+                } else {
+                    clearInterval(timerId);
+                }
+            }
+            updateUI();
+        }
+
+        // Update Interface
+        function updateUI() {
+            const intervalMinutes = Number(intervalInput.value);
+            
+            if (isActive) {
+                statusCard.className = 'rounded-2xl p-4 mb-6 flex items-center justify-between border bg-blue-900/40 border-blue-500/50 transition-colors';
+                statusIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400 animate-pulse"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
+                statusTitle.textContent = 'Systeem Actief';
+                statusSubtext.textContent = `Volgende check binnen ${intervalMinutes} min`;
+                toggleBtn.className = 'p-3 rounded-xl transition-all bg-red-500/20 text-red-400 hover:bg-red-500/30';
+                toggleIcon.innerHTML = '<rect width="18" height="18" x="3" y="3" rx="2" fill="currentColor"></rect>';
+            } else {
+                statusCard.className = 'rounded-2xl p-4 mb-6 flex items-center justify-between border bg-slate-700/50 border-slate-600 transition-colors';
+                statusIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400"><rect width="18" height="18" x="3" y="3" rx="2"></rect></svg>';
+                statusTitle.textContent = 'Systeem Gepauzeerd';
+                statusSubtext.textContent = 'Klik op start om te beginnen';
+                toggleBtn.className = 'p-3 rounded-xl transition-all bg-blue-500 text-white hover:bg-blue-600 shadow-lg shadow-blue-500/30';
+                toggleIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3" fill="currentColor"></polygon>';
+            }
+
+            settingsPanel.className = showSettings ? 'bg-slate-900/50 rounded-2xl p-4 mb-6 border border-slate-700 space-y-4 block' : 'hidden';
+            settingsBtn.className = showSettings ? 'flex flex-col items-center justify-center p-3 rounded-xl transition-colors border bg-slate-600 border-slate-500' : 'flex flex-col items-center justify-center p-3 rounded-xl transition-colors border bg-slate-700 hover:bg-slate-600 border-slate-600';
+
+            permissionBox.className = permission !== 'granted' ? 'bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-4 flex gap-3 items-start mb-6' : 'hidden';
+        }
+
+        // Event Listeners
+        toggleBtn.addEventListener('click', toggleActive);
+        testBtn.addEventListener('click', sendTestNotification);
+        settingsBtn.addEventListener('click', () => { showSettings = !showSettings; updateUI(); });
+        reqPermissionBtn.addEventListener('click', requestNotificationPermission);
+        intervalInput.addEventListener('change', updateUI);
+
+    </script>
+</body>
+</html>
